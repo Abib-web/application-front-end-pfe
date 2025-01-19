@@ -1,0 +1,20 @@
+.forecast-list {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #000;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+}
+
+.forecast-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.forecast-item:last-child {
+    border-bottom: none;
+}

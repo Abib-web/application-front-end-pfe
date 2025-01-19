@@ -1,0 +1,12 @@
+.home-content {
+  display: flex;
+  height: 100%;
+}
+
+.body-content {
+  display: flex;
+  flex-wrap: wrap; /* Allow elements to wrap */
+  gap: 20px; /* Add spacing between elements */
+  align-items: flex-start; /* Align items at the top */
+  margin: 20px;
+}

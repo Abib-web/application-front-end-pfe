@@ -1,0 +1,119 @@
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #f7f7f7;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header > * {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo et utilisateur */
+.logo {
+  font-family: 'Italianno';
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2e2e2e;
+  text-decoration: none;
+}
+
+.hello-user {
+  background-color: #007bff;
+  color: #fff;
+  padding: 0.8rem 2rem;
+  border-radius: 20px;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.hello-user:hover {
+  background-color: #10b981;
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+/* Lorsque l'input est checked (mode sombre) */
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Mode sombre */
+.dark-mode {
+  background-color: #333;
+  color: white;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+/* Mode sombre */
+.dark-mode {
+  background-color: #333;
+  color: white;
+}
+
+/* Mode clair */
+.light-mode {
+  background-color: #f7f7f7;
+  color: #333;
+}

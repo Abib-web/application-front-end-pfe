@@ -1,0 +1,190 @@
+.device-details {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+h2, h3, h4 {
+    margin: 10px 0;
+    color: #333;
+    font-weight: 600;
+}
+
+p {
+    color: #555;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+ul {
+    margin: 5px 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul li {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Conteneur des graphiques avec Flexbox en ligne */
+.charts-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    margin-top: 20px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Conteneur individuel pour chaque graphique */
+.chart-container {
+    width: 100%;
+    max-width: 350px;
+    height: 300px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chart-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour chaque graphique */
+.chart-container canvas {
+    border-radius: 8px;
+}
+
+/* Titre et espacement des sections */
+h3 {
+    margin-top: 40px;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+/* Style des informations de prévisions et conseils */
+.device-details p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Tableau des gaz */
+table {
+    margin-top: 20px;
+    width: 100%;
+}
+
+table th,
+table td {
+    text-align: center;
+    padding: 10px;
+}
+
+table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+table td {
+    color: #555;
+}
+
+table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+table.table-bordered {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Style pour l'icône de localisation */
+.FaLocationArrow {
+    color: #007bff;
+    margin-right: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .charts-row {
+        grid-template-columns: 1fr 1fr; /* Deux colonnes */
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    .device-details {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .charts-row {
+        grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+    }
+}
+/* Conteneur principal des prédictions */
+.prediction-container {
+    margin-top: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.prediction-chart {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Conteneur des conseils */
+.advice-container {
+    margin-top: 30px;
+}
+
+.advice-icons {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.advice-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+}
+
+.advice-item i {
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+/* Séparation entre les conseils et le texte */
+.advice-container p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Amélioration pour les écrans mobiles */
+@media (max-width: 768px) {
+    .advice-icons {
+        flex-direction: column;
+    }
+}

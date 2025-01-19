@@ -1,0 +1,74 @@
+.device-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.device-item {
+    display: flex;  /* Align items horizontally */
+    align-items: center;  /* Vertical alignment */
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    gap: 20px;  /* Horizontal space between elements */
+}
+
+.device-info {
+    display: inline-flex;  /* Use inline-flex to prevent block behavior */
+    flex-direction: column;
+    gap: 5px;
+    text-align: left;
+}
+
+.gases-info {
+    display: flex;  /* Align gases horizontally */
+    gap: 20px;  /* Space between each gas and its gauge */
+}
+
+.gas-item {
+    display: inline-flex;  /* Prevent block-level behavior */
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.gas-info {
+    text-align: center;
+}
+
+.circle-gauge {
+    display: inline;
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.circular-chart {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg); /* Rotate to start from top */
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+}
+
+.gauge-level {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
