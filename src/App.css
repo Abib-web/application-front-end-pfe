@@ -7,7 +7,10 @@ body {
   background-color: #f7f7f7;
   color: #333;
 }
-
+.app-container {
+  display: flex; /* Organise les enfants en ligne */
+  height: 100vh; /* Prend toute la hauteur de la fenêtre */
+}
 /* Mode sombre */
 .dark-mode {
   background-color: #333;
@@ -94,17 +97,31 @@ header > * {
 .map-container {
   margin-bottom: 2rem;
 }
-
-.device-item, .forecast-item {
+.main-content{
+  width: 900px;
+  display: flex;
+  flex-wrap: wrap; /* Allow elements to wrap */
+  gap: 20px; /* Add spacing between elements */
+  align-items: flex-start; /* Align items at the top */
+  margin: 20px;
+}
+.device-item {
+  display: flex; /* Active Flexbox */
+  flex-direction: row; /* Aligne les éléments verticalement */
+  justify-content: center; /* Centre verticalement */
+  align-items: center; /* Centre horizontalement */
   padding: 1rem;
   margin-bottom: 1rem;
   border: 1px solid #5d55cc;
   border-radius: 8px;
   background-color: #a6a4a4;
+  text-align: center; /* Aligne le texte (utile si inline) */
+  height: 100px; /* Facultatif, pour définir une hauteur */
 }
 
+
 .device-item h3, .forecast-item h3 {
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-bottom: 0.5rem;
 }
 

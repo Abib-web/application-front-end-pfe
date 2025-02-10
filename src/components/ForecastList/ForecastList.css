@@ -1,4 +1,7 @@
 .forecast-list {
+    
+    width: 400px;
+    height: 450px;
     display: flex;
     flex-direction: column;
     border: 2px solid #000;
@@ -13,6 +16,7 @@
     align-items: center;
     padding: 10px;
     border-bottom: 1px solid #ccc;
+    cursor: pointer;
 }
 
 .forecast-item:last-child {

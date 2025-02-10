@@ -1,12 +1,19 @@
 .home-content {
   display: flex;
-  height: 100%;
+  width: 100%; /* Prend toute la largeur */
+  height: 100%; /* Prend toute la hauteur */
+  justify-content: space-between; /* Aligne les éléments avec de l'espace entre eux (optionnel) */
 }
 
 .body-content {
-  display: flex;
-  flex-wrap: wrap; /* Allow elements to wrap */
-  gap: 20px; /* Add spacing between elements */
-  align-items: flex-start; /* Align items at the top */
+  display: flex; /* Active le flexbox pour cet élément */
+  flex-wrap: wrap; /* Permet aux éléments de revenir à la ligne quand il n'y a pas assez d'espace */
+  gap: 20px; /* Espace entre les éléments */
+  align-items: flex-start; /* Aligne les éléments au début du conteneur */
   margin: 20px;
+  width: 100%; /* Prend toute la largeur disponible */
+}
+
+.body-content > * {
+  flex: 1 1 300px; /* Chaque élément prend un minimum de 300px, mais peut se redimensionner */
 }

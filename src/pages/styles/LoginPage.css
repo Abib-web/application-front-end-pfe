@@ -2,8 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f4f4f4;
 }
 
 .login-form {
@@ -11,29 +12,40 @@
     padding: 20px 30px;
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 350px;
+    text-align: center;
 }
 
 .login-form h2 {
     margin-bottom: 20px;
-    text-align: center;
+    color: #333;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
 }
 
 .form-group {
     margin-bottom: 15px;
+    text-align: left;
 }
 
 .form-group label {
     display: block;
     margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
 }
 
 .form-group input {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    font-size: 14px;
 }
 
 button {
@@ -45,8 +57,14 @@ button {
     color: white;
     font-size: 16px;
     cursor: pointer;
+    transition: background 0.3s;
 }
 
 button:hover {
     background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
 }

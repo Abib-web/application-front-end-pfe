@@ -1,0 +1,66 @@
+.history-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .station-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    border-right: 2px solid #ddd;
+    padding-right: 20px;
+  }
+  
+  .station-item {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: 1px solid #ddd;
+  }
+  
+  .station-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .station-item.selected {
+    background-color: #007bff !important;
+    color: white;
+    border-color: #0056b3;
+  }
+  
+  .history-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .table tr:hover {
+    background-color: #f1f1f1;
+  }
+  

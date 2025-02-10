@@ -1,74 +1,147 @@
+/* DeviceList.css */
+
 .device-list {
+    width: 100%;
+    max-width: 800px;
+    min-height: 450px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 .device-item {
-    display: flex;  /* Align items horizontally */
-    align-items: center;  /* Vertical alignment */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 15px;
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    gap: 20px;  /* Horizontal space between elements */
+    gap: 15px;
+    min-height: 80px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    flex-wrap: nowrap;
+}
+
+.device-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .device-info {
-    display: inline-flex;  /* Use inline-flex to prevent block behavior */
+    flex: 1;
+    min-width: 150px;
+    display: flex;
     flex-direction: column;
-    gap: 5px;
-    text-align: left;
+    gap: 8px;
+}
+
+.device-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #2c3e50;
+}
+
+.device-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #7f8c8d;
 }
 
 .gases-info {
-    display: flex;  /* Align gases horizontally */
-    gap: 20px;  /* Space between each gas and its gauge */
-}
-
-.gas-item {
-    display: inline-flex;  /* Prevent block-level behavior */
-    flex-direction: row;
-    align-items: center;
-    gap: 5px;
-}
-
-.gas-info {
-    text-align: center;
+    display: flex;
+    gap: 15px;
+    padding: 5px;
+    overflow-x: visible;
+    min-width: fit-content;
 }
 
 .circle-gauge {
-    display: inline;
     position: relative;
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
+    margin: 0 5px;
+    flex-shrink: 0;
 }
 
 .circular-chart {
     width: 100%;
     height: 100%;
-    transform: rotate(-90deg); /* Rotate to start from top */
+    transform: rotate(-90deg);
 }
 
 .circle-bg {
     fill: none;
-    stroke: #eee;
+    stroke: #f0f0f0;
     stroke-width: 3.8;
 }
 
 .circle {
     fill: none;
-    stroke-width: 2.8;
+    stroke-width: 3.2;
+    transition: stroke-dasharray 0.5s ease-in-out;
     stroke-linecap: round;
 }
 
-.gauge-level {
-    margin-top: 5px;
+.gas-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 5px;
+}
+
+.value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+    margin: 0;
     font-size: 14px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.unit {
+    font-size: 0.6em;
+    color: #95a5a6;
+    margin-top: 2px;
+}
+
+.gas-type {
+    margin: 3px 0 0 0;
+    font-size: 0.7em;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+    max-width: 90%;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #3498db;
+    font-size: 1.2rem;
+}
+
+.error {
+    color: #e74c3c;
+    padding: 20px;
+    text-align: center;
     font-weight: bold;
-    color: #333;
 }
