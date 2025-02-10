@@ -137,7 +137,7 @@ src/
 │   └── authSlice.js
 └── App.jsx
 ```
-##Contribution
+## Contribution
 Les contributions sont les bienvenues ! Pour contribuer :
 
 Forkez le dépôt.
@@ -159,5 +159,5 @@ git push origin feature/ma-nouvelle-fonctionnalite
 ```
 Ouvrez une Pull Request.
 
-Licence
+## Licence
 Ce projet est sous licence MIT
