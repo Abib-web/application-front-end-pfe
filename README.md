@@ -67,7 +67,7 @@ L'application front-end a été réalisée avec **ReactJS** et intègre plusieur
 1. **Cloner le dépôt :**
 
    ```bash
-   git clone https://github.com/votre-utilisateur/votre-projet.git
+   git clone https://github.com/Abib-web/application-front-end-pfe.git
    cd votre-projet
    ```
 2. **Installer les dépendances :**
