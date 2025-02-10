@@ -69,3 +69,95 @@ L'application front-end a été réalisée avec **ReactJS** et intègre plusieur
    ```bash
    git clone https://github.com/votre-utilisateur/votre-projet.git
    cd votre-projet
+   ```
+2. **Installer les dépendances :**
+
+```
+npm install
+```
+3. **Configurer l'environnement :**
+Créez un fichier .env à la racine du projet et configurez les variables d'environnement nécessaires (par exemple, l'URL de l'API, le JWT_SECRET, etc.).
+
+4. **Démarrer l'application :**
+
+```
+npm run dev
+```
+L'application sera accessible sur http://localhost:5173.
+
+5. **Utilisation**
+### Connexion :
+Rendez-vous sur la page de connexion pour vous authentifier. Une fois connecté, vous serez redirigé vers le Dashboard.
+
+### Dashboard :
+Visualisez en temps réel les mesures de qualité de l'air, consultez l'historique des mesures et recevez des alertes.
+
+### Administration :
+Les utilisateurs ayant le rôle d'administrateur peuvent accéder à la page d'administration pour gérer les utilisateurs, les rôles et la configuration du système.
+
+### Alertes :
+Chaque utilisateur reçoit ses propres notifications. L'état de lecture est géré pour chaque utilisateur individuellement.
+
+### Structure du projet
+```
+src/
+├── components/
+│   ├── Admin/
+│   │   ├── UserList.jsx
+│   │   ├── UserForm.jsx
+│   │   ├── RoleList.jsx
+│   │   ├── RoleForm.jsx
+│   │   └── AdminLayout.jsx
+│   ├── AlertLogs/
+│   │   └── AlertsLogs.jsx
+│   ├── Header/
+│   │   └── Header.jsx
+│   ├── NavBar/
+│   │   └── NavBar.jsx
+│   ├── RealTime/
+│   │   ├── DeviceDetails.jsx
+│   │   └── RealTimeDashboard.jsx
+│   └── DeviceList/
+│       └── DeviceList.jsx
+├── pages/
+│   ├── AdminPage.jsx
+│   ├── Home.jsx
+│   ├── FAQ.jsx
+│   ├── Contact.jsx
+│   ├── LoginPage.jsx
+│   ├── Dashboard.jsx
+│   ├── Profile.jsx
+│   ├── Notifications.jsx
+│   └── ... (autres pages)
+├── api/
+│   ├── userAPI.js
+│   ├── alerts.js
+│   └── ... (autres API)
+├── store/
+│   └── authSlice.js
+└── App.jsx
+```
+##Contribution
+Les contributions sont les bienvenues ! Pour contribuer :
+
+Forkez le dépôt.
+
+### Créez une branche pour votre fonctionnalité :
+
+```
+git checkout -b feature/ma-nouvelle-fonctionnalite
+```
+# Commitez vos changements :
+
+```
+git commit -am "Ajouter une nouvelle fonctionnalité"
+```
+
+### Poussez votre branche :
+```
+git push origin feature/ma-nouvelle-fonctionnalite
+```
+Ouvrez une Pull Request.
+
+Licence
+Ce projet est sous licence MIT
