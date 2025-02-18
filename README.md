@@ -1,4 +1,5 @@
 # Application Front-end PFE
+![image](https://github.com/user-attachments/assets/5ff4f899-fd19-49eb-98e2-000e27e00dbd)
 
 Dans le cadre de notre projet de fin d'études, nous avons développé un système de surveillance de la qualité de l'air. Une partie essentielle de ce système est une application web front-end réalisée avec **ReactJS**.
 
