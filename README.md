@@ -13,7 +13,6 @@ Dans le cadre de notre projet de fin d'études, nous avons développé un systè
 - [Installation](#installation)
 - [Utilisation](#utilisation)
 - [Structure du projet](#structure-du-projet)
-- [Contribution](#contribution)
 - [Licence](#licence)
 
 ---
@@ -138,27 +137,6 @@ src/
 │   └── authSlice.js
 └── App.jsx
 ```
-## Contribution
-Les contributions sont les bienvenues ! Pour contribuer :
-
-Forkez le dépôt.
-
-### Créez une branche pour votre fonctionnalité :
-
-```
-git checkout -b feature/ma-nouvelle-fonctionnalite
-```
-# Commitez vos changements :
-
-```
-git commit -am "Ajouter une nouvelle fonctionnalité"
-```
-
-### Poussez votre branche :
-```
-git push origin feature/ma-nouvelle-fonctionnalite
-```
-Ouvrez une Pull Request.
 
 ## Licence
 Ce projet est sous licence MIT
