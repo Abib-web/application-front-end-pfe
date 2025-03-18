@@ -2,12 +2,13 @@ import { fetchWrapper } from './data';
 
 const USERS_ENDPOINT = '/users';
 const ROLES_ENDPOINT = '/roles';
+const STATS_ENDPOINT = '/stats';
 
 const transformUser = (apiData) => ({
-  id: apiData.id,
+  id: apiData.user_id,
   email: apiData.email,
   role: apiData.role_name,
-  lastLogin: new Date(apiData.last_login),
+  lastLogin: new Date(apiData.updated_at),
   isActive: apiData.is_active,
   metadata: apiData.user_metadata
 });
@@ -24,13 +25,20 @@ export const userAPI = {
   getAll: async () => {
     try {
       const data = await fetchWrapper.get(USERS_ENDPOINT);
-      console.log(data);
       return data.map(transformUser);
     } catch (error) {
       throw new Error(`User getAll error: ${error.message}`);
     }
   },
-
+ // Users
+ getAllWithRoles: async () => {
+  try {
+    const data = await fetchWrapper.get(USERS_ENDPOINT.concat('/roles'));
+    return data.map(transformUser);
+  } catch (error) {
+    throw new Error(`User getAll error: ${error.message}`);
+  }
+},
   getById: async (id) => {
     try {
       const data = await fetchWrapper.get(`${USERS_ENDPOINT}/${id}`);
@@ -41,7 +49,7 @@ export const userAPI = {
   },
 
   create: async (data) => {
-    const requiredFields = ['email', 'password'];
+    const requiredFields = ['email', 'password', 'username', 'role'];
     const missingFields = requiredFields.filter(field => !data[field]);
     
     if (missingFields.length > 0) {
@@ -50,11 +58,32 @@ export const userAPI = {
 
     try {
       const apiData = {
+        name: data.username,
         email: data.email,
         password_hash: data.password,
-        role_name: data.role
       };
-      return await fetchWrapper.post(USERS_ENDPOINT, apiData);
+      const response = await fetchWrapper.post(USERS_ENDPOINT, apiData);
+      return await fetchWrapper.post(ROLES_ENDPOINT, { user_id: response.user_id, role_id: data.role });
+    } catch (error) {
+      throw new Error(`User create error: ${error.message}`);
+    }
+  },
+  update: async (data) => {
+    const requiredFields = ['email', 'password', 'username', 'role'];
+    const missingFields = requiredFields.filter(field => !data[field]);
+    
+    if (missingFields.length > 0) {
+      throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+    }
+
+    try {
+      const apiData = {
+        name: data.username,
+        email: data.email,
+        password_hash: data.password,
+      };
+      const response = await fetchWrapper.update(USERS_ENDPOINT, apiData);
+      return await fetchWrapper.update(ROLES_ENDPOINT, { user_id: response.user_id, role_id: data.role });
     } catch (error) {
       throw new Error(`User create error: ${error.message}`);
     }
@@ -67,6 +96,15 @@ export const userAPI = {
       throw new Error(`User status update error: ${error.message}`);
     }
   },
+  delete: async (id) => {
+    try {
+      const response= await fetchWrapper.delete(`${USERS_ENDPOINT}/${id}`);
+      return await fetchWrapper.delete(`${ROLES_ENDPOINT}/${id}`);
+    } catch (error) {
+      throw new Error(`User delete error: ${error.message}`);
+    }
+  }
+  ,
 
   // Roles
   getAllRoles: async () => {
@@ -101,5 +139,13 @@ export const userAPI = {
     } catch (error) {
       throw new Error(`Role permissions update error: ${error.message}`);
     }
-  }
+  },
+  getStats: async () => {
+    try {
+      const data = await fetchWrapper.get(STATS_ENDPOINT);
+      return data;
+    } catch (error) {
+      throw new Error(`Error fetching stats: ${error.message}`);
+    }
+  },
 };

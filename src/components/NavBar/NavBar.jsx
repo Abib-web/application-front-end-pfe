@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/authSlice";
-import { FaHome, FaClock, FaChartLine, FaHistory, FaBell, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaClock, FaChartLine, FaHistory, FaBell, FaCog, FaSignOutAlt, FaUsersCog } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
 
@@ -13,12 +13,11 @@ const NavBar = () => {
     useEffect(() => {
         setIsLoaded(true); // Pour éviter que le bouton clignote au chargement
     }, [user]);
-
     const handleLogout = () => {
         dispatch(logoutUser());
     };
 
-    const navItems = [
+    const commonNavItems = [
         { icon: <FaHome />, label: 'Home', to: '/' },
         { icon: <FaClock />, label: 'Temps Réel', to: '/real-time' },
         { icon: <FaChartLine />, label: 'Tendances', to: '/tendances' },
@@ -26,6 +25,12 @@ const NavBar = () => {
         { icon: <FaBell />, label: 'Alertes', to: '/alertes' },
         { icon: <FaCog />, label: 'Paramètres', to: '/parametres' },
     ];
+
+    const adminNavItems = [
+        { icon: <FaUsersCog />, label: 'Admin', to: '/admin' },
+    ];
+
+    const navItems = user?.role.toLowerCase() === 'admin' ? [...commonNavItems, ...adminNavItems] : commonNavItems;
 
     return (
         <div className="navbar">

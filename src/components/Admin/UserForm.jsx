@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
+import { userAPI } from "../../api/users";
+
 
 const UserForm = () => {
+    const roles ={
+        admin: 10,
+        user: 11,
+        guest: 12
+    }
     const [formData, setFormData] = useState({
         username: '',
         email: '',
-        password: ''
+        password: '',
+        role: ''
     });
 
     const handleChange = (e) => {
@@ -17,6 +25,9 @@ const UserForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        userAPI.create(formData).then((res) => {
+            console.log('User created:', res);
+        });
         // Handle form submission logic here
         console.log('Form submitted:', formData);
     };
@@ -53,7 +64,24 @@ const UserForm = () => {
                     onChange={handleChange}
                 />
             </div>
-            <button type="submit">Submit</button>
+            <div>
+                <label htmlFor="role">Role:</label>
+                <select
+                    id="role"
+                    name="role"
+                    value={formData.role}
+                    onChange={handleChange}
+                >
+                    <option value="">Select a role</option>
+                    {Object.keys(roles).map((role) => (
+                        <option key={role} value={roles[role]}>
+                            {role}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <button type="submit">Ajouter</button>
         </form>
     );
 };

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AlertsLogs.css";
 import { alertAPI } from "../../api/alerts";
 
 const AlertsLogs = () => {
   const [alerts, setAlerts] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     alertAPI.getAll().then(setAlerts).catch(console.error);
   }, []);
@@ -21,7 +22,12 @@ const AlertsLogs = () => {
       console.error("Erreur lors de la mise à jour de l'alerte :", error);
     }
   };
-
+useEffect(() => {
+          const token = localStorage.getItem("token");
+          if (!token) {
+              navigate("/connexion");
+          }
+        }, [navigate]);
   return (
     <div className="alerts-container">
       <h2>Alerts Logs</h2>

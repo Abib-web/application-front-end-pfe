@@ -17,9 +17,6 @@ const AdminLayout = () => {
             <main className="admin-content">
                 <Outlet />
             </main>
-            <footer className="admin-footer">
-                <p>&copy; 2025 Your Company</p>
-            </footer>
         </div>
     );
 };

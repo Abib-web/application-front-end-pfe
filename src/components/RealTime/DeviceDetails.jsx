@@ -1,20 +1,18 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import { FaLocationArrow } from 'react-icons/fa';
 import { airQualityAPI } from '../../api/airQuality';
 import { sensorAPI } from '../../api/sensors';
+import { locationAPI } from '../../api/location';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'chart.js/auto';
 import './DeviceDetails.css';
-import { locationAPI } from '../../api/location';
-import { useNavigate } from 'react-router-dom';
-
 
 const GAS_TYPES = [
   { id: 'co_level', label: 'CO' },
   { id: 'no2_level', label: 'NO₂' },
-  { id: 'pm25_level', label: 'PM2.5' }, // Correction du nom de champ
+  { id: 'pm25_level', label: 'PM2.5' },
   { id: 'pm10_level', label: 'PM10' },
   { id: 'temperature', label: 'Température' },
   { id: 'humidity', label: 'Humidité' }
@@ -26,8 +24,10 @@ const DeviceDetails = () => {
   const [selectedGas, setSelectedGas] = useState(GAS_TYPES[0].label);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const chartRefs = useRef([]); // Références pour mettre à jour les graphiques
 
-  const chartRefs = useRef([]);
+  // Récupération initiale des données depuis le backend
   const fetchDeviceData = useCallback(async () => {
     try {
       setLoading(true);
@@ -58,55 +58,54 @@ const DeviceDetails = () => {
       setLoading(false);
     }
   }, [id]);
-  
+
   useEffect(() => {
     fetchDeviceData();
+  }, [fetchDeviceData]);
+
+  // Vérification de l'authentification
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/connexion");
+    }
+  }, [navigate]);
+
+  // Mise à jour incrémentale : ajouter une nouvelle valeur à la fin de l'historique pour chaque gaz toutes les secondes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDeviceData(prevData => {
+        if (!prevData) return prevData;
+        const updatedGases = prevData.gases.map((gas, i) => {
+          // Récupérer la dernière valeur enregistrée (le dernier élément de l'historique)
+          const lastEntry = gas.historical[gas.historical.length - 1]?.level || gas.currentLevel;
+          // Calculer une nouvelle valeur en ajoutant une variation aléatoire
+          const randomVariation = (Math.random() - 0.5) * 2; // Variation entre -1 et +1
+          const newLevel = lastEntry + randomVariation;
+          // Ajouter la nouvelle valeur à la fin de l'historique (on conserve l'historique complet)
+          const newHistorical = [...gas.historical, { timestamp: new Date(), level: newLevel }];
   
-    const intervals = GAS_TYPES.map((_, index) => {
-      return setInterval(() => {
-        setDeviceData(prevData => {
-          if (!prevData) return prevData;
+          // Mise à jour du graphique associé, si la référence existe
+          if (chartRefs.current[i]) {
+            const chart = chartRefs.current[i];
+            chart.data.labels = newHistorical.map(entry =>
+              entry.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+            );
+            chart.data.datasets[0].data = newHistorical.map(entry => entry.level);
+            chart.update();
+          }
   
           return {
-            ...prevData,
-            gases: prevData.gases.map((gas, i) => {
-              if (i === index) {
-                // Récupère la dernière valeur historique
-                const lastEntry = gas.historical[0]?.level || gas.currentLevel;
-                // Génère une nouvelle variation basée sur la dernière valeur
-                const randomVariation = (Math.random() - 0.5) * 2; // Variation plus réaliste
-                const newLevel = lastEntry + randomVariation;
-  
-                const updatedGas = {
-                  ...gas,
-                  currentLevel: newLevel,
-                  historical: [
-                    { timestamp: new Date(), level: newLevel }, // Nouvelle entrée en première position
-                    ...gas.historical,
-                  ].slice(0, 10) // Garde les 10 premières entrées
-                };
-  
-                // Met à jour le graphique correspondant
-                if (chartRefs.current[index]) {
-                  const chart = chartRefs.current[index];
-                  chart.data.labels = updatedGas.historical.map(entry =>
-                    entry.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                  );
-                  chart.data.datasets[0].data = updatedGas.historical.map(entry => entry.level);
-                  chart.update(); // Met à jour le graphique
-                }
-  
-                return updatedGas;
-              }
-              return gas;
-            })
+            ...gas,
+            currentLevel: newLevel,
+            historical: newHistorical
           };
         });
-      }, 3000); // Intervalle de 3 secondes pour une meilleure visibilité
-    });
-  
-    return () => intervals.forEach(clearInterval);
-  }, [fetchDeviceData]);
+        return { ...prevData, gases: updatedGases, lastUpdate: new Date() };
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const renderCurrentLevels = () => (
     <div className="card shadow">
@@ -121,13 +120,12 @@ const DeviceDetails = () => {
           {deviceData?.gases?.map((gas, index) => {
             const level = gas.currentLevel || 0;
             const status = level > 50 ? 'danger' : level > 30 ? 'warning' : 'success';
-            
             return (
               <div key={index} className="col-6 col-md-3 mb-3">
                 <div className={`card border-${status}`}>
                   <div className="card-body text-center">
                     <h5 className="card-title">{gas.type}</h5>
-                    <div className="display-6 text-${status}">
+                    <div className={`display-6 text-${status}`}>
                       {level.toFixed(2)}
                       <small className="text-muted d-block">ppm</small>
                     </div>
@@ -141,10 +139,11 @@ const DeviceDetails = () => {
     </div>
   );
 
+  // Pour l'affichage dans le tableau, on affiche uniquement les 10 dernières valeurs, avec la plus récente en haut.
   const renderHistoricalData = () => {
     const selectedGasData = deviceData?.gases?.find(g => g.type === selectedGas);
-    const last10Readings = selectedGasData?.historical?.slice(0, 10) || [];
-
+    // Récupérer les 10 dernières valeurs et inverser l'ordre pour afficher la plus récente en haut
+    const last10Readings = (selectedGasData?.historical.slice(-10) || []).reverse();
     return (
       <div className="card shadow">
         <div className="card-body">
@@ -160,7 +159,6 @@ const DeviceDetails = () => {
               ))}
             </select>
           </div>
-          
           <div className="table-responsive">
             <table className="table table-hover align-middle">
               <thead className="table-light">
@@ -174,10 +172,10 @@ const DeviceDetails = () => {
                 {last10Readings.map((entry, index) => (
                   <tr key={index}>
                     <td>{entry.timestamp?.toLocaleDateString()}</td>
-                    <td>{entry.timestamp?.toLocaleTimeString([], { timeStyle: 'short' })}</td>
+                    <td>{entry.timestamp?.toLocaleTimeString([], { timeStyle: 'long' })}</td>
                     <td className="text-end fw-bold">{entry.level?.toFixed(2)}</td>
                   </tr>
-                ))}
+                ))}              
               </tbody>
             </table>
           </div>
@@ -200,38 +198,31 @@ const DeviceDetails = () => {
               </div>
               <div className="chart-container">
                 <Line
-                  ref={(el) => (chartRefs.current[index] = el)} // Référence au graphique
+                  ref={(el) => (chartRefs.current[index] = el)}
                   data={{
-                    labels: gas.historical?.map(entry =>
-                      entry.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    labels: gas.historical.map(entry =>
+                      entry.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
                     ),
                     datasets: [{
                       label: 'Niveau',
-                      data: gas.historical?.map(entry => entry.level),
+                      data: gas.historical.map(entry => entry.level),
                       borderColor: `hsl(${index * 90}, 70%, 50%)`,
                       tension: 0.3,
-                      borderWidth: 2
+                      borderWidth: 2,
+                      pointRadius: 0,
+                      pointHoverRadius: 0
                     }]
                   }}
                   options={{
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                      legend: { display: false },
-                      tooltip: {
-                        mode: 'index',
-                        intersect: false
-                      }
+                    plugins: { 
+                      legend: { display: false }, 
+                      tooltip: { mode: 'index', intersect: false }
                     },
-                    scales: {
-                      x: {
-                        grid: { display: false },
-                        ticks: { maxRotation: 45 }
-                      },
-                      y: {
-                        beginAtZero: false,
-                        grid: { color: '#f8f9fa' }
-                      }
+                    scales: { 
+                      x: { grid: { display: false }, ticks: { maxRotation: 45 } }, 
+                      y: { beginAtZero: false, grid: { color: '#f8f9fa' } } 
                     }
                   }}
                 />
@@ -242,13 +233,7 @@ const DeviceDetails = () => {
       ))}
     </div>
   );
-  const navigate = useNavigate();
-  useEffect(() => {
-          const token = localStorage.getItem("token");
-          if (!token) {
-              navigate("/connexion");
-          }
-      }, [navigate]);
+
   if (loading) {
     return (
       <div className="loading-state">
@@ -272,6 +257,7 @@ const DeviceDetails = () => {
       </div>
     );
   }
+
   return (
     <div className="device-dashboard container-fluid">
       <header className="device-header mb-4 bg-primary text-white rounded-3 p-4">
@@ -280,7 +266,6 @@ const DeviceDetails = () => {
           {deviceData?.location} - {deviceData?.city}, {deviceData?.region}
         </h1>
       </header>
-
       <div className="row g-4">
         <div className="col-12">{renderCurrentLevels()}</div>
         <div className="col-12">{renderHistoricalData()}</div>

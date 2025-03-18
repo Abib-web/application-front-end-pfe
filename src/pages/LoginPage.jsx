@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 import "./styles/LoginPage.css";
+import { use } from "react";
+import Spinner from "../components/Spinner/Spinner";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -10,21 +12,27 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { error, status } = useSelector((state) => state.auth);
-
+  let user = {};
   const handleLogin = (e) => {
+    
     e.preventDefault();
     dispatch(loginUser({ email, password })).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
-        const user = res.payload.user;
-        if (user.role === "admin") {
-          navigate("/admin"); // Redirige les admins vers la page d'administration
-        } else {
-          navigate("/dashboard"); // Redirige les autres utilisateurs vers le tableau de bord
-        }
+         user = res.payload.user;
       }
     });
   };
 
+  useEffect(() => {
+    
+    if (status === "succeeded") {
+      navigate("/");
+    }else{
+      setInterval(() => {
+        <Spinner />
+      }, 2000);
+    }
+  }, [status, navigate]);
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleLogin}>

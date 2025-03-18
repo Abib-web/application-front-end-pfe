@@ -47,58 +47,69 @@ const Header = () => {
 
     navigate('/alertes'); // Redirection vers la page des alertes
   };
+  const handleLogin = () => {
+    if (user) return;
+    navigate('/connexion');
+  }
   const handleLogout = () => {
     dispatch(logoutUser()); 
   }
   return (
     <header>
-      <a href="/" className="logo">PFE AirQuality</a>
+      <a href="/" className="logo">AirQuality</a>
       {user && <div className="hello-user">Salut, {user.name} 👋</div>}
-      <label className="switch">
-        <input type="checkbox" onChange={toggleTheme} />
-        <span className="slider"></span>
-      </label>
+      <div className='right'>
+        <label className="switch">
+          <input type="checkbox" onChange={toggleTheme} />
+          <span className="slider"></span>
+        </label>
+        {!user && <div className="connexion" onClick={handleLogin}>Connexion</div>}
+      
+        {user && (
+          <div className="flex items-center gap-4">
+            {/* Icône de notification avec compteur des non lues */}
+            <Popover.Root>
+              <Popover.Trigger className="relative">
+                <FaBell size={24} />
+                {unreadAlerts.size > 0 && (
+                  <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">
+                    {unreadAlerts.size}
+                  </span>
+                )}
+              </Popover.Trigger>
 
-      {user && (
-        <div className="flex items-center gap-4">
-          {/* Icône de notification avec compteur des non lues */}
-          <Popover.Root>
-            <Popover.Trigger className="relative">
-              <FaBell size={24} />
-              {unreadAlerts.size > 0 && (
-                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">
-                  {unreadAlerts.size}
-                </span>
-              )}
-            </Popover.Trigger>
+              <Popover.Content className="bg-white shadow-lg rounded-md p-4 w-64">
+                {alerts.length === 0 ? (
+                  <p className="text-sm text-gray-500">✅ Aucune alerte active.</p>
+                ) : (
+                  <ul className="text-sm">
+                    {alerts.map((alert) => (
+                      <li
+                        key={alert.id}
+                        className={`mb-2 border-b pb-2 cursor-pointer ${unreadAlerts.has(alert.id) ? "font-bold text-red-500" : "text-gray-700"}`}
+                        onClick={() => handleAlertClick(alert.id)}
+                      >
+                        <strong>{alert.type}</strong>
+                        <span className="block">{alert.message}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <Popover.Close className="absolute top-1 right-1 text-gray-500 cursor-pointer">&times;</Popover.Close>
+              </Popover.Content>
+            </Popover.Root>
 
-            <Popover.Content className="bg-white shadow-lg rounded-md p-4 w-64">
-              {alerts.length === 0 ? (
-                <p className="text-sm text-gray-500">✅ Aucune alerte active.</p>
-              ) : (
-                <ul className="text-sm">
-                  {alerts.map((alert) => (
-                    <li
-                      key={alert.id}
-                      className={`mb-2 border-b pb-2 cursor-pointer ${unreadAlerts.has(alert.id) ? "font-bold text-red-500" : "text-gray-700"}`}
-                      onClick={() => handleAlertClick(alert.id)}
-                    >
-                      <strong>{alert.type}</strong>
-                      <span className="block">{alert.message}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <Popover.Close className="absolute top-1 right-1 text-gray-500 cursor-pointer">&times;</Popover.Close>
-            </Popover.Content>
-          </Popover.Root>
-
-          {/* Bouton de déconnexion */}
-          <div className='logout' onClick={handleLogout}>
-            <FaSignOutAlt size={24} color="black" />
+            
+          
           </div>
+              
+      )}
+      {user &&(
+        <div className='logout' onClick={handleLogout}>
+          <FaSignOutAlt size={24} color="black" />
         </div>
       )}
+      </div>
     </header>
   );
 };
