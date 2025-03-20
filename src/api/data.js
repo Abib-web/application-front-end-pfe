@@ -1,7 +1,7 @@
 import axios from 'axios';
+const backendURL = import.meta.env.VITE_ADDRESS_BACKEND; 
 
-const API_BASE_URL = 'process.env.REACT_APP_ADDRESS_BACKEND';
-const backendURL = process.env.REACT_APP_ADDRESS_BACKEND;
+const API_BASE_URL = backendURL;
 console.log("Backend URL:", backendURL);
 
 const apiClient = axios.create({
