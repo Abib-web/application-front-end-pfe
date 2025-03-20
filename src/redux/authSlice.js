@@ -6,7 +6,7 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:5000/login", { email, password });
+      const response = await axios.post("https://43pspr-5000.csb.app/login", { email, password });
       const data = response.data;
       if (!data.token || !data.user || !data.user.id || !data.user.name) {
         throw new Error("Réponse du serveur invalide");
